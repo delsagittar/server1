@@ -14,7 +14,8 @@ def process_event(event):
             print(f"Left Stick X: {event.value}")
         elif event.code == ecodes.ABS_Y:
             print(f"Left Stick Y: {event.value}")
-        # Add more cases for other axes as needed
+    elif event.type == ecodes.EV_KEY and event.value == 1:
+        print(f"Button {categorize(event).keycode} pressed")
 
 def main():
     ps4_controller = detect_ps4_controller()
@@ -26,11 +27,7 @@ def main():
     print(f"Using PS4 controller: {ps4_controller.name}")
 
     for event in ps4_controller.read_loop():
-        if event.type == ecodes.EV_KEY and event.value == 1:
-            print(f"Button {categorize(event).keycode} pressed")
-
-        if event.type == ecodes.EV_ABS:
-            process_event(event)
+        process_event(event)
 
 if __name__ == "__main__":
     main()
